@@ -1,7 +1,7 @@
 class Pokemon
   attr_accessor :id, :name, :type, :db
   
-  def initialize(array)
+  def initialize(id:, name:, type:, db:)
     @id = id
     @name = name
     @type = type
@@ -18,13 +18,13 @@ class Pokemon
   end
   
   
-  def self.find(id, name, type)
+  def self.find(name, type)
     sql = <<-SQL
       SELECT *
       FROM pokemon
-      WHERE students.id = ?
+      WHERE pokemon.id = ?
     SQL
-    pokemon = self.new(row[0], row[1],row[2])
-    pokemon
+    pokemon = db.execute(sql, id)
+    self.new(id, pokemon[0], pokemon[1],pokemon[2], db)
   end 
 end
